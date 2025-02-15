@@ -1,29 +1,30 @@
-import Footer from "@/app/shared/Footer";
+import Link from "next/link";
 
 export default function Login () {
+    console.log("fsfsd")
     return(<section id='login' className='main-page-container'>
-        <div className="relative flex flex-col justify-center h-screen overflow-hidden">
-            <div className="w-full p-6 m-auto bg-white rounded-md shadow-md ring-2 ring-gray-800/50 lg:max-w-lg">
-                <h1 className="text-3xl font-semibold text-center text-gray-500">Login</h1>
-                <form className="space-y-4">
-                    <div>
-                        <label className="label">
-                            <span className="text-base label-text">Email</span>
-                        </label>
-                        <input type="text" placeholder="Email Address" className="w-full input input-bordered"/>
-                    </div>
-                    <div>
-                        <label className="label">
-                            <span className="text-base label-text">Password</span>
-                        </label>
-                        <input type="password" placeholder="Enter Password" className="w-full input input-bordered"/>
-                    </div>
-                    <a href="#" className="text-xs text-gray-600 hover:underline hover:text-blue-600">Forget
-                        Password?</a>
-                    <div>
-                        <button className="btn-neutral btn btn-block">Login</button>
-                    </div>
-                </form>
+        <div className="flex justify-center items-center min-h-[500px] " data-theme="light dark">
+            <div className="card w-96 bg-base-200 text-base-content shadow-xl p-6">
+                <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
+                <div className="form-control w-full">
+                    <label className="label">
+                        <span className="label-text">Email</span>
+                    </label>
+                    <input type="email" placeholder="Enter your email" className="input input-bordered w-full"/>
+                </div>
+                <div className="form-control w-full mt-3">
+                    <label className="label">
+                        <span className="label-text">Password</span>
+                    </label>
+                    <input type="password" placeholder="Enter your password" className="input input-bordered w-full"/>
+                </div>
+                <div className="flex justify-between mt-2 text-sm">
+                    <a href="#" className="text-primary hover:underline">Forgot Password?</a>
+                </div>
+                <button className="btn btn-primary w-full mt-4">Login</button>
+                <p className="text-center text-sm mt-2">
+                    Don't have an account? <Link href="/register/" className="text-primary hover:underline">Sign up</Link>
+                </p>
             </div>
         </div>
     </section>)

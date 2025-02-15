@@ -11,8 +11,11 @@ export const ThemeContext = createContext<ThemeContextType>({});
 export const ThemeProvider = ({ children }: any) => {
     const [theme, setTheme] = useState<string>(
         () =>{
-            const theme = localStorage.getItem("theme")
-            return typeof theme == "string"? theme : "light";
+            if (typeof window !== "undefined") {
+                const theme = localStorage.getItem("theme");
+                return typeof theme === "string" ? theme : "light";
+            }
+            return "light"; // Default theme
         }
     );
     useEffect(() => {
