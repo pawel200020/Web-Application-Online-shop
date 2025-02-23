@@ -23,7 +23,7 @@ export default function Login () {
                 </div>
                 <button className="btn btn-primary w-full mt-4">Login</button>
                 <p className="text-center text-sm mt-2">
-                    Don't have an account? <Link href="/register/" className="text-primary hover:underline">Sign up</Link>
+                    Don't have an account? <Link href="/[locale]/register/" className="text-primary hover:underline">Sign up</Link>
                 </p>
             </div>
         </div>

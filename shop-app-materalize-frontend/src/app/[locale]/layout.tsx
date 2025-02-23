@@ -1,8 +1,8 @@
 import type {Metadata} from "next";
 import {Inter} from "next/font/google";
 import "./globals.css";
-import {Navbar} from "@/app/shared/Navbar";
-import Footer from "@/app/shared/Footer";
+import {Navbar} from "@/app/[locale]/shared/Navbar";
+import Footer from "@/app/[locale]/shared/Footer";
 import {ThemeProvider} from "@/app/context/ThemeContext";
 import ClientThemeWrapper from "@/app/context/ClientThemeWrapper";
 

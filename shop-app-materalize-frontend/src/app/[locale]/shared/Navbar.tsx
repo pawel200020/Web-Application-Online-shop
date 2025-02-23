@@ -19,7 +19,7 @@ export function Navbar(){
                     </div>
                     <ul tabIndex={1}
                         className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><Link href="/" className='link'>Main page</Link></li>
+                        <li><Link href="/public" className='link'>Main page</Link></li>
                         <li>
                             <a>Parent</a>
                             <ul className="p-2">
@@ -30,11 +30,11 @@ export function Navbar(){
                         <li><a>Item 3</a></li>
                     </ul>
                 </div>
-                <Link className="btn btn-ghost text-xl" href={"/"}>KKMK</Link>
+                <Link className="btn btn-ghost text-xl" href={"/public"}>KKMK</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><Link href={"/"}>Item 1</Link></li>
+                    <li><Link href={"/public"}>Item 1</Link></li>
                     <li>
                         <details>
                             <summary>Parent</summary>
@@ -73,8 +73,8 @@ export function Navbar(){
                 </div>
                 <div className="flex-none">
                     <ul className="menu menu-horizontal px-1">
-                        <li><Link href={"/login/"}>Login</Link></li>
-                        <li><Link href={"/register/"}>Register</Link></li>
+                        <li><Link href={"/src/app/%5Blocale%5D/login/"}>Login</Link></li>
+                        <li><Link href={"/src/app/%5Blocale%5D/register/"}>Register</Link></li>
                     </ul>
                 </div>
             </div>
