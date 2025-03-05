@@ -1,0 +1,10 @@
+{
+  "HomePage": {
+    "title": "Hello world!3",
+    "about": "Go to the about page"
+  },
+  "Navbar": {
+    "register": "Zarejestruj się",
+    "login": "Zaloguj się"
+  }
+}

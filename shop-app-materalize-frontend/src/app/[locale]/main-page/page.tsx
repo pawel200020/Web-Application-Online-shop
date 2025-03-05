@@ -1,10 +1,11 @@
-import {Navbar} from "@/app/[locale]/shared/Navbar";
-
-export default function MainPage(){
+import {getTranslations} from 'next-intl/server';
+import {Link} from '@/i18n/navigation';
+export default async function MainPage(){
+    const t = await getTranslations('HomePage');
+    console.log(t('title'))
     return (<section id='MainPage' className='main-page-container'>
         Hello<br/>
-        <input type="checkbox" value="synthwave" className="toggle theme-controller"/>
-
+        {t('title')}
         fsfasfd<br/>
 
         asdfasdf<br/>

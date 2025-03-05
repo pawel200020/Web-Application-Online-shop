@@ -1,11 +1,13 @@
 "use client";
-import Link from 'next/link';
+import {Link} from '@/i18n/navigation';
 import ThemeSwitcher from "@/app/context/ThemeSwitcher";
 import {ThemeContext} from "@/app/context/ThemeContext";
 import {useContext} from "react";
+import {useTranslations} from 'next-intl';
 
 export function Navbar(){
     const { changeTheme } = useContext(ThemeContext);
+    const translations = useTranslations('Navbar');
     return(<>
         <div className="navbar bg-base-300 rounded-box shadow-xl">
             <div className="navbar-start">
@@ -19,7 +21,7 @@ export function Navbar(){
                     </div>
                     <ul tabIndex={1}
                         className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><Link href="/public" className='link'>Main page</Link></li>
+                        <li><Link href="/" className='link'>Main page</Link></li>
                         <li>
                             <a>Parent</a>
                             <ul className="p-2">
@@ -30,11 +32,11 @@ export function Navbar(){
                         <li><a>Item 3</a></li>
                     </ul>
                 </div>
-                <Link className="btn btn-ghost text-xl" href={"/public"}>KKMK</Link>
+                <Link className="btn btn-ghost text-xl" href={"/"}>Krakowska Linia Muzealna</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><Link href={"/public"}>Item 1</Link></li>
+                    <li><Link href={"/"}>Item 1</Link></li>
                     <li>
                         <details>
                             <summary>Parent</summary>
@@ -53,7 +55,7 @@ export function Navbar(){
                 <ThemeSwitcher handleOnClick={changeTheme}/>
                 <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost     avatar">
-                       Test
+                        Test
                     </div>
                     <ul
                         tabIndex={0}
@@ -62,19 +64,33 @@ export function Navbar(){
                         <li><a>Logout</a></li>
                     </ul>
                 </div>
-                <div className="dropdown">
-                    <div tabIndex="0" role="button" className="btn">Language</div>
-                    <ul tabIndex="0" data-dropdown-toggle="dropdownHover"
+                <div className="flex-none">
+                    <ul className="menu menu-horizontal px-1">
+                        <li>
+                            <details>
+                                <summary>language</summary>
+                                <ul className="bg-base-100 rounded-t-none p-2">
+                                    <li><a>en</a></li>
+                                    <li><a>de</a></li>
+                                    <li><a>pl</a></li>
+                                </ul>
+                            </details>
+                        </li>
+                    </ul>
+                </div>
+                {/*<div className="dropdown">
+                    <div tabIndex={0} role="button" className="btn">Language</div>
+                    <ul tabIndex={1} data-dropdown-toggle="dropdownHover"
                         className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                         <li><a>EN</a></li>
                         <li><a>PL</a></li>
                         <li><a>DE</a></li>
                     </ul>
-                </div>
+                </div>*/}
                 <div className="flex-none">
                     <ul className="menu menu-horizontal px-1">
-                        <li><Link href={"/src/app/%5Blocale%5D/login/"}>Login</Link></li>
-                        <li><Link href={"/src/app/%5Blocale%5D/register/"}>Register</Link></li>
+                        <li><Link href={"/login/"}>{[translations("login")]}</Link></li>
+                        <li><Link href={"/register/"}>{[translations("register")]}</Link></li>
                     </ul>
                 </div>
             </div>

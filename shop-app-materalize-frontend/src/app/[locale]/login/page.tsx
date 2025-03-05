@@ -1,7 +1,6 @@
-import Link from "next/link";
+import {Link} from '@/i18n/navigation';
 
 export default function Login () {
-    console.log("fsfsd")
     return(<section id='login' className='main-page-container'>
         <div className="flex justify-center items-center min-h-[500px] " data-theme="light dark">
             <div className="card w-96 bg-base-200 text-base-content shadow-xl p-6">
@@ -23,7 +22,8 @@ export default function Login () {
                 </div>
                 <button className="btn btn-primary w-full mt-4">Login</button>
                 <p className="text-center text-sm mt-2">
-                    Don't have an account? <Link href="/[locale]/register/" className="text-primary hover:underline">Sign up</Link>
+                    Dont have an account? <Link href="/register" className="text-primary hover:underline">Sign
+                    up</Link>
                 </p>
             </div>
         </div>

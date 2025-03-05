@@ -1,4 +1,4 @@
-import Link from "next/link";
+import {Link} from '@/i18n/navigation';
 
 export default function Register(){
     return(
@@ -61,7 +61,7 @@ export default function Register(){
 
                     <button className="btn btn-primary w-full mt-4">Register</button>
                     <p className="text-center text-sm mt-2">
-                        Already have an account? <Link href="/[locale]/login/" className="text-primary hover:underline">Login</Link>
+                        Already have an account? <Link href="/login/" className="text-primary hover:underline">Login</Link>
                     </p>
                 </div>
             </div>
