@@ -52,7 +52,7 @@ export function Navbar() {
             </div>
 
             <div className="navbar-end">
-                <div className="flex-none"><LanguageSelector/></div>
+                <div className="flex-none mr-3"><LanguageSelector/></div>
                 <ThemeSwitcher handleOnClick={changeTheme}/>
                 <div className="flex-none">
                     <ul className="menu menu-horizontal px-1">
