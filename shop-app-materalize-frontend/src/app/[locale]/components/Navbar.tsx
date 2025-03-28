@@ -52,8 +52,8 @@ export function Navbar() {
             </div>
 
             <div className="navbar-end">
-                <ThemeSwitcher handleOnClick={changeTheme}/>
                 <div className="flex-none"><LanguageSelector/></div>
+                <ThemeSwitcher handleOnClick={changeTheme}/>
                 <div className="flex-none">
                     <ul className="menu menu-horizontal px-1">
                         <li><Link href={"/login/"}>{[translations("login")]}</Link></li>
