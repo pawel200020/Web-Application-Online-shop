@@ -1,14 +1,15 @@
 import type {Metadata} from "next";
 import {Inter} from "next/font/google";
 import "./globals.css";
-import {Navbar} from "@/app/[locale]/shared/Navbar";
-import Footer from "@/app/[locale]/shared/Footer";
+import {Navbar} from "@/app/[locale]/components/Navbar";
+import Footer from "@/app/[locale]/components/Footer";
 import {ThemeProvider} from "@/app/context/ThemeContext";
 import ClientThemeWrapper from "@/app/context/ClientThemeWrapper";
 import {routing} from "@/i18n/routing";
 import {notFound} from "next/navigation";
 import {getMessages} from "next-intl/server";
 import {NextIntlClientProvider} from "next-intl";
+import "../../../node_modules/flag-icons/css/flag-icons.css";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -18,13 +19,12 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
-                                       children,
-                                       params
-                                   }: {
+                                             children,
+                                             params
+                                         }: {
     children: React.ReactNode;
     params: Promise<{ locale: string }>;
-})
-{
+}) {
     // Ensure that the incoming `locale` is valid
     const {locale} = await params;
     if (!routing.locales.includes(locale as any)) {
@@ -54,7 +54,6 @@ export default async function RootLayout({
             </NextIntlClientProvider>
             </body>
             </html>
-
         );
     }
 }

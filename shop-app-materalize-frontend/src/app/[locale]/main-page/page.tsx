@@ -1,6 +1,6 @@
 import {getTranslations} from 'next-intl/server';
-import {Link} from '@/i18n/navigation';
-export default async function MainPage(){
+
+export default async function MainPage() {
     const t = await getTranslations('HomePage');
     console.log(t('title'))
     return (<section id='MainPage' className='main-page-container'>

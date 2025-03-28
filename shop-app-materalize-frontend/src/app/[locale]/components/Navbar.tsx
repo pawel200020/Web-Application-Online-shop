@@ -4,11 +4,12 @@ import ThemeSwitcher from "@/app/context/ThemeSwitcher";
 import {ThemeContext} from "@/app/context/ThemeContext";
 import {useContext} from "react";
 import {useTranslations} from 'next-intl';
+import {LanguageSelector} from "@/app/[locale]/components/LanguageSelector";
 
-export function Navbar(){
-    const { changeTheme } = useContext(ThemeContext);
+export function Navbar() {
+    const {changeTheme} = useContext(ThemeContext);
     const translations = useTranslations('Navbar');
-    return(<>
+    return (<>
         <div className="navbar bg-base-300 rounded-box shadow-xl">
             <div className="navbar-start">
                 <div className="dropdown">
@@ -24,7 +25,7 @@ export function Navbar(){
                         <li><Link href="/" className='link'>Main page</Link></li>
                         <li>
                             <a>Parent</a>
-                            <ul className="p-2">
+                            <ul className="">
                                 <li><a>Submenu 1</a></li>
                                 <li><a>Submenu 2</a></li>
                             </ul>
@@ -51,42 +52,8 @@ export function Navbar(){
             </div>
 
             <div className="navbar-end">
-
                 <ThemeSwitcher handleOnClick={changeTheme}/>
-                <div className="dropdown dropdown-end">
-                    <div tabIndex={0} role="button" className="btn btn-ghost     avatar">
-                        Test
-                    </div>
-                    <ul
-                        tabIndex={0}
-                        className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                        <li><a>Settings</a></li>
-                        <li><a>Logout</a></li>
-                    </ul>
-                </div>
-                <div className="flex-none">
-                    <ul className="menu menu-horizontal px-1">
-                        <li>
-                            <details>
-                                <summary>language</summary>
-                                <ul className="bg-base-100 rounded-t-none p-2">
-                                    <li><a>en</a></li>
-                                    <li><a>de</a></li>
-                                    <li><a>pl</a></li>
-                                </ul>
-                            </details>
-                        </li>
-                    </ul>
-                </div>
-                {/*<div className="dropdown">
-                    <div tabIndex={0} role="button" className="btn">Language</div>
-                    <ul tabIndex={1} data-dropdown-toggle="dropdownHover"
-                        className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                        <li><a>EN</a></li>
-                        <li><a>PL</a></li>
-                        <li><a>DE</a></li>
-                    </ul>
-                </div>*/}
+                <div className="flex-none"><LanguageSelector/></div>
                 <div className="flex-none">
                     <ul className="menu menu-horizontal px-1">
                         <li><Link href={"/login/"}>{[translations("login")]}</Link></li>
