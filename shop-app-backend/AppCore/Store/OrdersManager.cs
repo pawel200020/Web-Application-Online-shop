@@ -9,7 +9,7 @@ using Product = AppCore.BusinessEntities.Product;
 
 namespace AppCore.Store;
 
-public class OrdersManager
+public class OrdersManager : IOrdersManager
 {
     private readonly IOrdersRepository _ordersRepository;
     private readonly IProductsRepository _productsRepository;
@@ -35,30 +35,26 @@ public class OrdersManager
 
     private async Task RemoveOrderedProducts(int id, int quantity)
     {
-        var product = await _productsRepository.GetById(id) as Product
-                      ?? throw new InvalidOperationException("product does not exists");
+        var product = await _productsRepository.GetById(id) as Product ?? throw new InvalidOperationException("product does not exists");
         product.Quantity -= quantity;
 
         if (product.Quantity <= 0)
             product.IsAvalible = false;
 
-        
+        await _productsRepository.Save(product);
     }
 
     private async Task VerifyEnoughResources(IEnumerable<IOrdersProducts> products)
     {
         foreach (var product in products)
         {
-            var resource = await _context.Products
-                .FirstOrDefaultAsync(x => x.Id == product.ProductId);
+            var resource = await _productsRepository.GetById(product.ProductId) as Product;
             if (resource is null)
                 throw new InvalidOperationException("Product with derived id does not exists in database");
             if (!resource.IsAvalible)
                 throw new InvalidOperationException("Selected product is currently unavailable");
             if (resource.Quantity < product.Quantity)
                 throw new InvalidOperationException($"there is not enough resource {resource.Name}");
-
-            await RemoveOrderedProducts(product.ProductId, product.Quantity);
         }
     }
     private async Task<double> CountOrderValue(IEnumerable<IOrdersProducts> products)
@@ -66,33 +62,24 @@ public class OrdersManager
         double price = 0;
         foreach (var product in products)
         {
-            var founded = await _context.Products
-                .Include(x => x.ProductsCategories).ThenInclude(x => x.Category)
-                .FirstOrDefaultAsync(x => x.Id == product.ProductId);
+            var founded = await _productsRepository.GetById(product.ProductId);
             if (founded != null)
-            {
                 price += product.Quantity * founded.Price;
-            }
         }
         return price;
     }
 
     public async Task<int> AddOrder(Order order)
     {
-
         await VerifyEnoughResources(order.OrdersProducts);
+        foreach (var orderedProduct in order.OrdersProducts)
+            await RemoveOrderedProducts(orderedProduct.ProductId, orderedProduct.Quantity);
+        
         order.Value = await CountOrderValue(order.OrdersProducts);
-        _context.Add(order);
-        await _context.SaveChangesAsync();
+        await _ordersRepository.AddOrder(order);
         return order.Id;
     }
 
     public async Task Delete(int id)
-    {
-        var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
-        if (order == null)
-            throw new InvalidOperationException("Product with derived id does not exists in database");
-        _context.Remove(order);
-        await _context.SaveChangesAsync();
-    }
+        => await _ordersRepository.Delete(id);
 }

@@ -1,6 +1,7 @@
 ﻿using AppCommonTools.HttpContext;
 using AppCore;
 using AppCore.BusinessEntities;
+using AppCore.Store;
 using AutoMapper;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +17,15 @@ namespace ShopPortal.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly Orders _orders;
+        private readonly IOrdersManager _ordersManager;
         private readonly IMapper _mapper;
         private readonly ILogger<OrdersController> _logger;
 
         /// <inheritdoc />
-        public OrdersController(IMapper mapper, Orders orders, ILogger<OrdersController> logger)
+        public OrdersController(IMapper mapper, IOrdersManager ordersManager, ILogger<OrdersController> logger)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _orders = orders ?? throw new ArgumentNullException(nameof(orders));
+            _ordersManager = ordersManager ?? throw new ArgumentNullException(nameof(ordersManager));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -36,7 +37,7 @@ namespace ShopPortal.Controllers
         [HttpGet]
         public async Task<ActionResult<OrderViewModel[]>> Get([FromQuery] PaginationViewModel paginationViewModel)
         {
-            var( orders, quantity) = await _orders.GetAll(_mapper.Map<PaginationModel>(paginationViewModel));
+            var( orders, quantity) = await _ordersManager.GetAll(_mapper.Map<PaginationModel>(paginationViewModel));
             HttpContext.InsertParametersPaginationInHeader(quantity);
             return _mapper.Map<OrderViewModel[]>(orders);
         }
@@ -51,7 +52,7 @@ namespace ShopPortal.Controllers
         {
             try
             {
-                var order = await _orders.GetById(id);
+                var order = await _ordersManager.GetById(id);
                 return _mapper.Map<OrderViewModel>(order);
             }
             catch (InvalidOperationException ex)
@@ -71,7 +72,7 @@ namespace ShopPortal.Controllers
 
             try
             {
-                var createdOrderId = await _orders.AddOrder(_mapper.Map<Order>(orderCreationViewModel));
+                var createdOrderId = await _ordersManager.AddOrder(_mapper.Map<Order>(orderCreationViewModel));
                 return createdOrderId;
             }
             catch(InvalidOperationException ex)
@@ -91,7 +92,7 @@ namespace ShopPortal.Controllers
         {
             try
             {
-                await _orders.Delete(id);
+                await _ordersManager.Delete(id);
                 return NoContent();
             }
             catch (InvalidOperationException ex)

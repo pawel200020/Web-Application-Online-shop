@@ -6,7 +6,6 @@ using Data.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ShopCore;
 using ViewModels.Pagination;
 using ViewModels.Shop.Categories;
 

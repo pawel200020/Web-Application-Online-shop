@@ -7,15 +7,15 @@ public class Product : IProduct
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public bool IsAvalible { get; }
-    public double Price { get; }
-    public int Quantity { get; }
-    public DateTime ManufactureDate { get; }
-    public string? Picture { get; }
-    public string? Caption { get; }
-    public IEnumerable<IProductsCategories> ProductsCategories { get; }
-    public double AverageVote { get; }
-    public int UserVote { get; }
-    public IFormFile? PictureFile { get; }
-    public IEnumerable<ICategory> Categories { get; }
+    public bool IsAvalible {  get; set; }
+    public double Price { get; set; }
+    public int Quantity { get; set; }
+    public DateTime ManufactureDate { get; set; }
+    public string? Picture {  get; set;  }
+    public string? Caption {  get; set;  }
+    public IEnumerable<IProductsCategories> ProductsCategories { get; set;  }
+    public double AverageVote {  get; set; }
+    public int UserVote { get; set; }
+    public IFormFile? PictureFile { get; set;  }
+    public IEnumerable<ICategory> Categories { get; set; }
 }

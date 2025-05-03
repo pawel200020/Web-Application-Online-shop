@@ -1,8 +1,8 @@
-﻿using AppCore.BusinessEntities;
+﻿using AppAbstract.Store;
+using AppCore.BusinessEntities;
 using AutoMapper;
 using Data.Entities;
 using Data.Entities.Dependencies;
-using ShopCore;
 using ViewModels.Accounts;
 using ViewModels.Pagination;
 using ViewModels.Rating;
@@ -10,7 +10,7 @@ using ViewModels.Shop.Categories;
 using ViewModels.Shop.Orders;
 using ViewModels.Shop.Products;
 
-namespace ShopPortal.Helpers
+namespace ShopPortal.AutoMapper
 {
     public class AutoMapperProfiles :Profile
     {
@@ -28,29 +28,29 @@ namespace ShopPortal.Helpers
             CreateMap<FilterProductsViewModel, FilterProducts>()
                 .ForMember(x => x.PaginationModel, y => y.MapFrom(z => z.PaginationViewModel));
             CreateMap<ProductPutGet,ProductPutGetViewModel>().ReverseMap();
-            CreateMap<RatingViewModel, Rating>().
+            CreateMap<RatingViewModel, IRating>().
                 ForMember(x => x.Rate, y => y.MapFrom(z => z.Rating));
 
             CreateMap<OrderViewModel, Order>().ReverseMap();
             CreateMap<OrderCreationViewModel, Order>()
                 .ForMember(x => x.OrdersProducts, options => options.MapFrom(MapOrderProducts));
 
-            CreateMap<ProductViewModel, Product>().ReverseMap();
-            CreateMap<ProductCreationViewModel, Product>()
+            CreateMap<ProductViewModel, IProduct>().ReverseMap();
+            CreateMap<ProductCreationViewModel, IProduct>()
                 .ForMember(x => x.Picture, options => options.Ignore())
                 .ForMember(x=>x.PictureFile, options=>options.MapFrom(z=>z.Picture))
                 .ForMember(x => x.ProductsCategories, options => options.MapFrom(MapProductCategories));
 
-            CreateMap<Product, ProductViewModel>()
+            CreateMap<IProduct, ProductViewModel>()
                 .ForMember(x => x.Category, options => options.MapFrom(MapProductCategories));
 
             CreateMap<Order, OrderViewModel>()
                 .ForMember(x => x.OrdersProducts, options => options.MapFrom(MapOrderProductsOrder));
         }
 
-        private List<ProductsesCategories> MapProductCategories(ProductCreationViewModel productCreationViewModel, Product product)
+        private List<IProductsCategories> MapProductCategories(ProductCreationViewModel productCreationViewModel, IProduct product)
         {
-            var result = new List<ProductsesCategories>();
+            var result = new List<IProductsCategories>();
             if (productCreationViewModel.CategoriesIds == null)
             {
                 return result;
@@ -58,7 +58,7 @@ namespace ShopPortal.Helpers
 
             foreach (var id in productCreationViewModel.CategoriesIds)
             {
-                result.Add(new ProductsesCategories() {CategoryId = id});
+                result.Add(new ProductsCategories() {CategoryId = id});
             }
 
             return result;
@@ -80,7 +80,7 @@ namespace ShopPortal.Helpers
             return result;
         }
 
-        private List<CategoryViewModel> MapProductCategories(Product product, ProductViewModel productViewModel)
+        private List<CategoryViewModel> MapProductCategories(IProduct product, ProductViewModel productViewModel)
         {
             var res  = new List<CategoryViewModel>();
             if (product.ProductsCategories != null)
@@ -94,7 +94,7 @@ namespace ShopPortal.Helpers
             return res;
         }
 
-        private List<ProductsOrdersViewModel> MapOrderProductsOrder(Order order, OrderViewModel orderViewModel)
+        private List<ProductsOrdersViewModel> MapOrderProductsOrder(IOrder order, OrderViewModel orderViewModel)
         {
             var res = new List<ProductsOrdersViewModel>();
             if (order.OrdersProducts != null)

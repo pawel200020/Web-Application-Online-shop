@@ -1,9 +1,9 @@
-﻿using AutoMapper;
+﻿using AppCore.Store;
+using AutoMapper;
 using Data.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ShopCore;
 using ViewModels.Rating;
 
 namespace ShopPortal.Controllers
@@ -15,14 +15,14 @@ namespace ShopPortal.Controllers
     [Route("api/ratings")]
     public class RatingsController : ControllerBase
     {
-        private readonly Ratings _ratings;
+        private readonly IRatingsManager _ratingsManager;
         private readonly IMapper _mapper;
         private readonly ILogger<RatingsController> _logger;
 
         /// <inheritdoc />
-        public RatingsController(Ratings ratings, IMapper mapper, ILogger<RatingsController> logger)
+        public RatingsController(IRatingsManager ratingsManager, IMapper mapper, ILogger<RatingsController> logger)
         {
-            _ratings = ratings ?? throw new ArgumentNullException(nameof(ratings));
+            _ratingsManager = ratingsManager ?? throw new ArgumentNullException(nameof(ratingsManager));
             _mapper = mapper ?? throw  new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -38,7 +38,7 @@ namespace ShopPortal.Controllers
             var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
             try
             {
-                await _ratings.Vote(_mapper.Map<Rating>(rating), email);
+                await _ratingsManager.Vote(_mapper.Map<Rating>(rating), email);
             }
             catch (ArgumentNullException ex)
             {

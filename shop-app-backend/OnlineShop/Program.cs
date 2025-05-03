@@ -11,8 +11,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using ShopCore;
-using ShopPortal;
 using ShopPortal.APIBehavior;
 using ShopPortal.Filters;
 using ShopPortal.Helpers;

@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using AppAbstract.Store;
 using Microsoft.AspNetCore.Identity;
 
 namespace Data.Entities
 {
-    public class Rating
+    public class Rating : IRating
     {
         public int Id { get; set; }
         [Range(1,5)]
@@ -12,5 +14,8 @@ namespace Data.Entities
         public Product Product { get; set; }
         public string UserId { get; set; }
         public IdentityUser User { get; set; }
+
+        [NotMapped]
+        IProduct IRating.Product => Product;
     }
 }
