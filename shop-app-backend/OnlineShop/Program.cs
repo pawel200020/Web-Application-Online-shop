@@ -2,6 +2,9 @@ using System;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
+using AppAbstract.HostEnvironmentProvider;
+using AppAbstract.Services;
+using AppCore;
 using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +16,7 @@ using ShopPortal;
 using ShopPortal.APIBehavior;
 using ShopPortal.Filters;
 using ShopPortal.Helpers;
+using ShopPortal.HostEnvironment;
 using ShopPortal.Security;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -86,13 +90,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException()));
 
 builder.Services.AddScoped<IFileStorageService, InAppStorageService>();
-builder.Services.AddScoped<ShopCore.Helpers.IFileStorageService, InAppStorageService>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IAccounts, Accounts>();
-builder.Services.AddShopCore();
+builder.Services.AddScoped<IWebHostEnvironmentProvider, WebHostEnvironmentProvider>();
+builder.Services.AddAppCore();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors(options =>

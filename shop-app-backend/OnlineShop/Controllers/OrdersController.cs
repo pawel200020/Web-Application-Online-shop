@@ -1,8 +1,9 @@
-﻿using AutoMapper;
+﻿using AppCommonTools.HttpContext;
+using AppCore;
+using AppCore.BusinessEntities;
+using AutoMapper;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
-using ShopCore;
-using ShopPortal.Helpers;
 using ViewModels.Pagination;
 using ViewModels.Shop.Orders;
 

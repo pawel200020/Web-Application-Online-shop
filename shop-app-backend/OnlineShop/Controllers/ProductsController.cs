@@ -1,15 +1,15 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using AppAbstract.Store;
+using AppCommonTools.HttpContext;
+using AppCore.BusinessEntities;
+using AppCore.Store;
 using AutoMapper;
-using Data.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ShopCore;
-using ShopPortal.Helpers;
 using ViewModels.Pagination;
 using ViewModels.Shop.Categories;
 using ViewModels.Shop.Products;
-
 
 namespace ShopPortal.Controllers
 {
@@ -22,16 +22,16 @@ namespace ShopPortal.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly Products _products;
+        private readonly IProductsManager _productsManager;
         private readonly ILogger<ProductsController> _logger;
 
 
         /// <inheritdoc />
-        public ProductsController(IMapper mapper, Products products, ILogger<ProductsController> logger)
+        public ProductsController(IMapper mapper, ILogger<ProductsController> logger, IProductsManager productsManager)
         {
             _mapper = mapper ;
-            _products = products?? throw new ArgumentNullException(nameof(products));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _productsManager = productsManager ?? throw new ArgumentNullException(nameof(productsManager));
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace ShopPortal.Controllers
         [HttpGet("searchByName/{query}")]
         public async Task<ActionResult<ProductsOrdersViewModel[]>> SearchByName(string query)
         {
-            var result = await _products.SearchByName(query);
+            var result = await _productsManager.SearchByName(query);
             return _mapper.Map<ProductsOrdersViewModel[]>(result);
         }
 
@@ -53,7 +53,7 @@ namespace ShopPortal.Controllers
         [HttpGet("PostGet")]
         public async Task<ActionResult<ProductPostGetViewModel>> PostGet()
         {
-            var categories = _mapper.Map<CategoryViewModel[]>(await _products.GetEmptyProductWithAllCategories());
+            var categories = _mapper.Map<CategoryViewModel[]>(await _productsManager.GetEmptyProductWithAllCategories());
             return new ProductPostGetViewModel() { Categories = categories };
         }
 
@@ -66,7 +66,7 @@ namespace ShopPortal.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<ProductViewModel[]>> Filter([FromQuery] FilterProductsViewModel filterProductsViewModel)
         {
-            var (result, quantity) = await _products.FilterWithCriteria(_mapper.Map<FilterProducts>(filterProductsViewModel));
+            var (result, quantity) = await _productsManager.FilterWithCriteria(_mapper.Map<FilterProducts>(filterProductsViewModel));
             HttpContext.InsertParametersPaginationInHeader(quantity);
             return _mapper.Map<ProductViewModel[]>(result);
         }
@@ -79,7 +79,7 @@ namespace ShopPortal.Controllers
         [HttpGet]
         public async Task<ActionResult<ProductViewModel[]>> Get([FromQuery] PaginationViewModel paginationViewModel)
         {
-            var (result, quantity) = await _products.Get(_mapper.Map<PaginationModel>(paginationViewModel));
+            var (result, quantity) = await _productsManager.Get(_mapper.Map<PaginationModel>(paginationViewModel));
             HttpContext.InsertParametersPaginationInHeader(quantity);
             return _mapper.Map<ProductViewModel[]>(result);
         }
@@ -93,14 +93,12 @@ namespace ShopPortal.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<ProductViewModel>> Get(int id)
         {
-            var result = await _products.GetById(id, GetCurrentlyLoggedUserMail());
+            var result = await _productsManager.GetById(id, GetCurrentlyLoggedUserMail());
             if (result == null)
             {
                 _logger.LogWarning("product does not exists in database");
                 return NotFound();
             }
-                
-
             return _mapper.Map<ProductViewModel>(result);
         }
 
@@ -111,7 +109,7 @@ namespace ShopPortal.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromForm] ProductCreationViewModel productCreationViewModel)
         {
-            await _products.Create(_mapper.Map<Product>(productCreationViewModel));
+            await _productsManager.Create(_mapper.Map<Product>(productCreationViewModel));
             return NoContent();
         }
 
@@ -126,7 +124,7 @@ namespace ShopPortal.Controllers
         {
             try
             {
-                var result = await _products.PrepareForEdit(id, GetCurrentlyLoggedUserMail());
+                var result = await _productsManager.PrepareForEdit(id, GetCurrentlyLoggedUserMail());
                 return _mapper.Map<ProductPutGetViewModel>(result);
             }
             catch (Exception ex)
@@ -146,7 +144,7 @@ namespace ShopPortal.Controllers
         {
             try
             {
-                await _products.Save(id, _mapper.Map<Product>(productCreationViewModel));
+                await _productsManager.Save(id, _mapper.Map<IProduct>(productCreationViewModel));
             }
             catch (Exception ex)
             {
@@ -163,7 +161,7 @@ namespace ShopPortal.Controllers
         {
             try
             {
-                await _products.Delete(id);
+                await _productsManager.Delete(id);
             }
             catch (Exception ex)
             {

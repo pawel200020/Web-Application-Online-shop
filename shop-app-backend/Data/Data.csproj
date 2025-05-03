@@ -15,4 +15,9 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AppAbstract\AppAbstract.csproj" />
+    <ProjectReference Include="..\AppCommonTools\AppCommonTools.csproj" />
+  </ItemGroup>
+
 </Project>

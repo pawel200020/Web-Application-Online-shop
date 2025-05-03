@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using AppAbstract.Configuration;
 
 namespace Data.Entities
 {
-    public class ApplicationParameter
+    public class ApplicationParameter : IApplicationParameter
     {
         public int Id { get; set; }
         [Required]

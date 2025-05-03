@@ -1,4 +1,5 @@
-﻿using Data.Entities;
+﻿using AppCore.BusinessEntities;
+using Data.Entities;
 using ShopPortal.Helpers;
 using ViewModels.Accounts;
 

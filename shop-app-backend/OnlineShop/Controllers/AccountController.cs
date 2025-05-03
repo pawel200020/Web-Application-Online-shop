@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AppCore.BusinessEntities;
+using AutoMapper;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using ShopPortal.Security;

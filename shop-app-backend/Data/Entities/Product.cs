@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using AppAbstract.Store;
+using Data.Entities.Dependencies;
 using Data.Validation;
 using Microsoft.AspNetCore.Http;
 
 namespace Data.Entities
 {
-    public class Product
+    public class Product : IProduct
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "This field with name {0} required")]
@@ -23,7 +25,12 @@ namespace Data.Entities
         public DateTime ManufactureDate { get; set; }
         public string? Picture { get; set; }
         public string? Caption { get; set; }
-        public List<ProductsCategories> ProductsCategories { get; set; } = null!;
+        public IEnumerable<ProductsCategories> ProductsCategories { get; set; } = null!;
+        [NotMapped]
+        IEnumerable<IProductsCategories> IProduct.ProductsCategories
+        {
+            get => ProductsCategories;
+        }
         [NotMapped]
         public double AverageVote { get; set; }
         [NotMapped]
@@ -31,5 +38,7 @@ namespace Data.Entities
         [NotMapped]
         public IFormFile? PictureFile { get; set; }
 
+        [NotMapped]
+        public IEnumerable<ICategory> Categories => ProductsCategories.Select(productsCategories => productsCategories.Category);
     }
 }

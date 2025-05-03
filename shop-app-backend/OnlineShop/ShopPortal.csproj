@@ -27,8 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AppCommonTools\AppCommonTools.csproj" />
     <ProjectReference Include="..\Data\Data.csproj" />
-    <ProjectReference Include="..\ShopCore\ShopCore.csproj" />
+    <ProjectReference Include="..\AppCore\AppCore.csproj" />
     <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
   </ItemGroup>
   <PropertyGroup>

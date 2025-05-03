@@ -1,10 +1,12 @@
-﻿using AutoMapper;
+﻿using AppCommonTools.HttpContext;
+using AppCore.BusinessEntities;
+using AppCore.Store;
+using AutoMapper;
 using Data.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShopCore;
-using ShopPortal.Helpers;
 using ViewModels.Pagination;
 using ViewModels.Shop.Categories;
 
@@ -20,13 +22,13 @@ namespace ShopPortal.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly Categories _categories;
+        private readonly ICategoriesManager _categoriesRepository;
         private readonly ILogger<CategoriesController> _logger;
         /// <inheritdoc />
-        public CategoriesController(IMapper mapper, Categories categories, ILogger<CategoriesController> logger)
+        public CategoriesController(IMapper mapper, ICategoriesManager categoriesRepository, ILogger<CategoriesController> logger)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _categories = categories ?? throw new ArgumentNullException(nameof(categories));
+            _categoriesRepository = categoriesRepository ?? throw new ArgumentNullException(nameof(categoriesRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -38,7 +40,7 @@ namespace ShopPortal.Controllers
         [HttpGet]
         public async Task<ActionResult<CategoryViewModel[]>> Get([FromQuery] PaginationViewModel paginationViewModel)
         {
-            var (categories, quantity) = await _categories.GetAllCategoriesPaged(_mapper.Map<PaginationModel>(paginationViewModel));
+            var (categories, quantity) = await _categoriesRepository.GetAllCategoriesPaged(_mapper.Map<PaginationModel>(paginationViewModel));
             HttpContext.InsertParametersPaginationInHeader(quantity);
             return _mapper.Map<CategoryViewModel[]>(categories);
         }
@@ -50,7 +52,7 @@ namespace ShopPortal.Controllers
         [HttpGet("all")]
         public async Task<ActionResult<List<CategoryViewModel>>> Get()
         {
-            return _mapper.Map<List<CategoryViewModel>>(await _categories.GetAllCategories());
+            return _mapper.Map<List<CategoryViewModel>>(await _categoriesRepository.GetAllCategories());
         }
         
         /// <summary>
@@ -62,7 +64,7 @@ namespace ShopPortal.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<CategoryViewModel>> Get(int id)
         {
-            var category = await _categories.GetById(id);
+            var category = await _categoriesRepository.GetById(id);
             if (category is null)
                 return NotFound();
 
@@ -76,7 +78,7 @@ namespace ShopPortal.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CategoryCreationViewModel categoryCreationViewModel)
         {
-            await _categories.Create(_mapper.Map<Category>(categoryCreationViewModel));
+            await _categoriesRepository.Create(_mapper.Map<Category>(categoryCreationViewModel));
             return NoContent();
         }
 
@@ -90,7 +92,7 @@ namespace ShopPortal.Controllers
         {
             try
             {
-               await _categories.Edit(id, _mapper.Map<Category>(categoryViewModel));
+               await _categoriesRepository.Edit(id, _mapper.Map<Category>(categoryViewModel));
             }
             catch (InvalidOperationException ex)
             {
@@ -109,7 +111,7 @@ namespace ShopPortal.Controllers
         {
             try
             {
-                await _categories.Delete(id);
+                await _categoriesRepository.Delete(id);
             }
             catch (InvalidOperationException ex)
             {
