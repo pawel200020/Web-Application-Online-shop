@@ -16,8 +16,9 @@ namespace ShopPortal.Controllers
     /// </summary>
     [Route("api/categories")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Authorize(Policy = "Admin")]
+    [AllowAnonymous]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(Policy = "Admin")]
     public class CategoriesController : ControllerBase
     {
         private readonly IMapper _mapper;

@@ -5,6 +5,7 @@ using System.Text;
 using AppAbstract.HostEnvironmentProvider;
 using AppAbstract.Services;
 using AppCore;
+using AppCore.Constants;
 using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -15,8 +16,6 @@ using ShopPortal.APIBehavior;
 using ShopPortal.Filters;
 using ShopPortal.Helpers;
 using ShopPortal.HostEnvironment;
-using ShopPortal.Security;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -74,25 +73,31 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters()
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["keyjwt"])),
-        ClockSkew = TimeSpan.Zero
-    };
-});
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["keyjwt"])),
+            ClockSkew = TimeSpan.Zero
+        };
+    })
+    .AddCookie(AppConstants.CookieName, options =>
+    {
+        options.LoginPath = "app/login";
+        options.AccessDeniedPath = "";
+        options.Cookie.Name = AppConstants.CookieName;
+    });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException()));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException()), ServiceLifetime.Transient);
 
 builder.Services.AddScoped<IFileStorageService, InAppStorageService>();
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddScoped<IAccounts, Accounts>();
 builder.Services.AddScoped<IWebHostEnvironmentProvider, WebHostEnvironmentProvider>();
 builder.Services.AddAppCore();
 builder.Services.AddHttpContextAccessor();

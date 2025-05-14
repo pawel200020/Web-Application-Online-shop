@@ -1,4 +1,6 @@
-﻿using AppCore.Store;
+﻿using AppAbstract.Users;
+using AppCore.Store;
+using AppCore.Users;
 using Data;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +14,7 @@ public static class AppCoreServiceExtension
         services.AddScoped<IRatingsManager, RatingsManager>();
         services.AddScoped<IOrdersManager, OrdersManager>();
         services.AddScoped<IProductsManager,ProductsManager>();
+        services.AddScoped<IAccountsManager, AccountsManager>();
         services.AddData();
     }
 }
