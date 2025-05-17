@@ -1,4 +1,3 @@
-using System;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
@@ -9,7 +8,6 @@ using AppCore.Constants;
 using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ShopPortal.APIBehavior;
@@ -82,7 +80,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["keyjwt"])),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["keyjwt"] ?? throw new InvalidOperationException())),
             ClockSkew = TimeSpan.Zero
         };
     })
@@ -93,13 +91,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.Cookie.Name = AppConstants.CookieName;
     });
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException()), ServiceLifetime.Transient);
-
 builder.Services.AddScoped<IFileStorageService, InAppStorageService>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IWebHostEnvironmentProvider, WebHostEnvironmentProvider>();
-builder.Services.AddAppCore();
+builder.Services.AddAppCore(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors(options =>
@@ -107,7 +102,7 @@ builder.Services.AddCors(options =>
     var frontendUrl = builder.Configuration.GetValue<string>("frontend_url");
     options.AddDefaultPolicy(corsPolicyBuilder =>
     {
-        corsPolicyBuilder.WithOrigins(frontendUrl).AllowAnyMethod().AllowAnyHeader()
+        corsPolicyBuilder.WithOrigins(frontendUrl!).AllowAnyMethod().AllowAnyHeader()
             .WithExposedHeaders("totalAmountOfRecords");
     });
 });
