@@ -5,8 +5,7 @@ using Data;
 using Data.Entities.Dependencies;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using Moq.EntityFrameworkCore;
-
+using NUnit.Framework;
 namespace ShopCoreTests
 {
     internal class OrdersTests

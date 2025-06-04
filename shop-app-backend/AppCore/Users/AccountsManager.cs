@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using AppAbstract.Users;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -19,7 +20,7 @@ public class AccountsManager(
 
     public async Task<IJwtTokenWithExpirationDate> RegisterAndGetJwtKey(IUserCredentials userCredentials)
     {
-        var user = new IdentityUser { UserName = userCredentials.Email, Email = userCredentials.Email };
+        var user = new IdentityUser { UserName = userCredentials.Email, Email = userCredentials.Email};
         var result =  await _userManager.CreateAsync(user, userCredentials.Password);
 
         if (result.Succeeded)
@@ -57,9 +58,25 @@ public class AccountsManager(
         return new JwtTokenWithExpirationDate(new JwtSecurityTokenHandler().WriteToken(token), expiration);
     }
 
-    public Task Register(IUserCredentials userCredentials)
+    public async Task <IEnumerable<Claim>> Register(IUserCredentials userCredentials)
     {
-        throw new NotImplementedException();
+        var user = new IdentityUser
+        {
+            UserName = userCredentials.Login, 
+            Email = userCredentials.Email,
+            PhoneNumber = userCredentials.PhoneNumber
+            
+        };
+        var result =  await _userManager.CreateAsync(user, userCredentials.Password);
+
+        if(result.Succeeded)
+            return new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, "Administrator"),
+        };
+        return null;
     }
 
     public Task Login(IUserCredentials userCredentials)

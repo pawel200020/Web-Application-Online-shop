@@ -6,6 +6,7 @@ using AppAbstract.Services;
 using AppCore;
 using AppCore.Constants;
 using Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -84,11 +85,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ClockSkew = TimeSpan.Zero
         };
     })
-    .AddCookie(AppConstants.CookieName, options =>
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,options =>
     {
-        options.LoginPath = "app/login";
-        options.AccessDeniedPath = "";
-        options.Cookie.Name = AppConstants.CookieName;
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+        options.SlidingExpiration = true;
+        options.AccessDeniedPath = "/Forbidden/";
+        options.LoginPath = "accounts/login";
     });
 
 builder.Services.AddScoped<IFileStorageService, InAppStorageService>();

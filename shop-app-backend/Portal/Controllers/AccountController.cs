@@ -1,6 +1,8 @@
 ﻿using AppAbstract.Users;
 using AppCore.BusinessEntities;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using ViewModels.Accounts;
 
@@ -50,6 +52,24 @@ public class AccountController : ControllerBase
     {
         var result = await _accounts.LoginAndGetJwtKey(_mapper.Map<UserCredentials>(userCredentialsViewModel));
 
+        if(result is IJwtTokenWithMessage tokenWithMessage && tokenWithMessage.Message.Any())
+            return BadRequest(tokenWithMessage.Message);
+            
+        return _mapper.Map<AuthenticationResponseViewModel>(result);
+    }
+    
+    /// <summary>
+    /// Create an account
+    /// </summary>
+    /// <param name="userCredentialsViewModel"></param>
+    /// <returns>User token valid 1 day</returns>
+    [HttpPost("register")]
+    public async Task<ActionResult<AuthenticationResponseViewModel>> Register([FromBody] UserCredentialsViewModel userCredentialsViewModel)
+    {
+        var result = await _accounts.Register(_mapper.Map<UserCredentials>(userCredentialsViewModel));
+       //HttpContext.SignInAsync( CookieAuthenticationDefaults.AuthenticationScheme, )
+        
+        
         if(result is IJwtTokenWithMessage tokenWithMessage && tokenWithMessage.Message.Any())
             return BadRequest(tokenWithMessage.Message);
             

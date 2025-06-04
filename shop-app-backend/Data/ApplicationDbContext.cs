@@ -23,10 +23,21 @@ namespace Data
         {
             public ApplicationDbContext CreateDbContext(string[] args)
             {
+                var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                
                 IConfigurationRoot configuration = new ConfigurationBuilder()
-                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                    .AddJsonFile("appsettings.Development.json")
+                    .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../Portal"))
+                    //.AddJsonFile("appsettings.json", optional: false)
+                    .AddJsonFile($"appsettings.Development.json", optional: false)
                     .Build();
+                
+                
+                var settingsSection = configuration.GetSection("Settings");
+                // var appSettings = new AppSettings();
+                // settingsSection.Bind(appSettings);
+
+                // Create DB context with connection from your AppSettings 
+                
                 var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
                 optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException());
 

@@ -332,7 +332,7 @@ namespace OnlineShop.Migrations
                     b.ToTable("ProductsCategories");
                 });
 
-            modelBuilder.Entity("ShopPortal.Entities.Rating", b =>
+            modelBuilder.Entity("Portal.Entities.Rating", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -448,7 +448,7 @@ namespace OnlineShop.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ShopPortal.Entities.Rating", b =>
+            modelBuilder.Entity("Portal.Entities.Rating", b =>
                 {
                     b.HasOne("OnlineShop.Entities.Product", "Product")
                         .WithMany()

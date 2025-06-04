@@ -11,7 +11,7 @@ public static class DataServiceExtension
     public static void AddData(this IServiceCollection services, ConfigurationManager configurationManager)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(configurationManager.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException()), ServiceLifetime.Transient);
+            options.UseSqlServer(configurationManager.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException(), b => b.MigrationsAssembly("Data")),ServiceLifetime.Transient);
         services.AddScoped<IProductsRepository, ProductsRepository>();
         services.AddScoped<ICategoriesRepository, CategoriesRepository>();
         services.AddScoped<IOrdersRepository, OrdersRepository>();
