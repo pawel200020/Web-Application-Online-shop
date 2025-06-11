@@ -3,13 +3,12 @@ using AppCore.BusinessEntities;
 using AppCore.Store;
 using AutoMapper;
 using Data.Entities;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ViewModels.Pagination;
 using ViewModels.Shop.Categories;
 
-namespace ShopPortal.Controllers
+namespace Portal.Controllers
 {
     /// <summary>
     /// Controller for product categories management, all endpoints need you to be logged in

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using AppAbstract.Store;
-using AppAbstract.Store.Denpendecies;
+using AppAbstract.Store.Denpendencies;
 using Data.Entities.Dependencies;
 using Data.Validation;
 

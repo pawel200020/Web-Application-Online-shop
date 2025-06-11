@@ -1,12 +1,4 @@
-﻿using AppAbstract.Store.Denpendecies;
-using AppCore;
-using Data.Entities;
-using Data;
-using Data.Entities.Dependencies;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using NUnit.Framework;
-namespace ShopCoreTests
+﻿namespace AppCoreTests
 {
     internal class OrdersTests
     {

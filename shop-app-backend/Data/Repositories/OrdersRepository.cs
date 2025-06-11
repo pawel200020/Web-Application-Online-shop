@@ -1,5 +1,5 @@
 ﻿using AppAbstract.Store;
-using AppAbstract.Store.Denpendecies;
+using AppAbstract.Store.Denpendencies;
 using Data.Abstract;
 using Data.Entities;
 using Microsoft.EntityFrameworkCore;

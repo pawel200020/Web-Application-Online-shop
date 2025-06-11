@@ -4,17 +4,17 @@ using System.Text;
 using AppAbstract.HostEnvironmentProvider;
 using AppAbstract.Services;
 using AppCore;
-using AppCore.Constants;
+using AppCore.ExternalServices;
 using Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using ShopPortal.APIBehavior;
-using ShopPortal.Filters;
-using ShopPortal.Helpers;
-using ShopPortal.HostEnvironment;
+using Portal.APIBehavior;
+using Portal.Filters;
+using Portal.HostEnvironment;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

@@ -1,4 +1,4 @@
-﻿using AppAbstract.Store.Denpendecies;
+﻿using AppAbstract.Store.Denpendencies;
 
 namespace AppAbstract.Store;
 

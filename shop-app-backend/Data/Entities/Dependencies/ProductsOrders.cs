@@ -1,5 +1,4 @@
-﻿using AppAbstract.Store.Denpendecies;
-using AppAbstract.Store.Denpendencies;
+﻿using AppAbstract.Store.Denpendencies;
 
 namespace Data.Entities.Dependencies
 {

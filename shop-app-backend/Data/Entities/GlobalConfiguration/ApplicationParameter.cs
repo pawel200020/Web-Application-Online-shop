@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AppAbstract.Configuration;
 
-namespace Data.Entities
+namespace Data.Entities.GlobalConfiguration
 {
     public class ApplicationParameter : IApplicationParameter
     {

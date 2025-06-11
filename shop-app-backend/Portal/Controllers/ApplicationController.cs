@@ -1,4 +1,4 @@
-﻿namespace ShopPortal.Controllers;
+﻿namespace Portal.Controllers;
 
 /// <summary>
 /// Application paramteres controller

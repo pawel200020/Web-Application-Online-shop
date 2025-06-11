@@ -1,6 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Data.Entities;
+﻿using Data.Entities;
 using Data.Entities.Dependencies;
+using Data.Entities.GlobalConfiguration;
+using Data.Entities.Users;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -8,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Data
 {
-    public class ApplicationDbContext :IdentityDbContext
+    public class ApplicationDbContext :IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext() : base()
         {
@@ -49,6 +51,23 @@ namespace Data
         {
             modelBuilder.Entity<OrdersProducts>().HasKey(p => new {p.OrderId, p.ProductId});
             modelBuilder.Entity<ProductsCategories>().HasKey(p => new {p.CategoryId, p.ProductId});
+            modelBuilder.Entity<Avatar>()
+                .Property(p=> p.TsInsert)
+                .HasComputedColumnSql("getutcdate()")
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<Avatar>()
+                .Property(p=> p.TsInsert)
+                .HasComputedColumnSql("getutcdate()")
+                .ValueGeneratedOnAddOrUpdate();
+            modelBuilder.Entity<Avatar>()
+                .Property(p=> p.TsInsert)
+                .HasComputedColumnSql("getutcdate()")
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<Avatar>()
+                .Property(p=> p.TsInsert)
+                .HasComputedColumnSql("getutcdate()")
+                .ValueGeneratedOnAddOrUpdate();
+            
             base.OnModelCreating(modelBuilder);
         }
 
@@ -58,6 +77,7 @@ namespace Data
         public virtual DbSet<OrdersProducts> OrdersProducts { get; set; }
         public virtual DbSet<ProductsCategories> ProductsCategories { get; set; }
         public virtual DbSet<Rating> Rating { get; set; }
-        public DbSet<ApplicationParameter> ApplicationParameters { get; set; }
+        public virtual DbSet<ApplicationParameter> ApplicationParameters { get; set; }
+        public virtual DbSet<Avatar> UserAvatars { get; set; }
     }
 }

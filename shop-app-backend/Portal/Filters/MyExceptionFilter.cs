@@ -1,7 +1,6 @@
-﻿using System.Globalization;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace ShopPortal.Filters
+namespace Portal.Filters
 {
     public class MyExceptionFilter :ExceptionFilterAttribute
     {

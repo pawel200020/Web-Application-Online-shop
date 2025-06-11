@@ -1,5 +1,5 @@
 ﻿using AppAbstract.Store;
-using AppAbstract.Store.Denpendecies;
+using AppAbstract.Store.Denpendencies;
 using AppCommonTools.Linq;
 using AppCore.BusinessEntities;
 using Data.Abstract;

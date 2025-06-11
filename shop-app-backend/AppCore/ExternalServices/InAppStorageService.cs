@@ -1,7 +1,7 @@
 ﻿using AppAbstract.HostEnvironmentProvider;
 using Microsoft.AspNetCore.Http;
 
-namespace ShopPortal.Helpers
+namespace AppCore.ExternalServices
 {
     public class InAppStorageService : AppAbstract.Services.IFileStorageService
     {

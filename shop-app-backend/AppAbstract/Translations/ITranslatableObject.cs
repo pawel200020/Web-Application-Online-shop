@@ -1,4 +1,4 @@
-﻿namespace AppAbstract;
+﻿namespace AppAbstract.Translations;
 
 public interface ITranslatableObject
 {

@@ -10,7 +10,7 @@ using ViewModels.Shop.Categories;
 using ViewModels.Shop.Orders;
 using ViewModels.Shop.Products;
 
-namespace ShopPortal.AutoMapper
+namespace Portal.AutoMapper
 {
     public class AutoMapperProfiles :Profile
     {
@@ -20,7 +20,7 @@ namespace ShopPortal.AutoMapper
             CreateMap<CategoryCreationViewModel, Category>();
 
             CreateMap<PaginationModel, PaginationViewModel>().ReverseMap();
-            CreateMap<UserCredentialsViewModel, UserCredentials>().ReverseMap();
+            CreateMap<RegisterViewModel, UserCredentials>().ReverseMap();
             CreateMap<AuthenticationResponseViewModel,AuthenticationResponse>().ReverseMap();
             CreateMap<ProductsOrdersViewModel, ProductsOrders>().ReverseMap();
             CreateMap<FilterProducts,FilterProductsViewModel>()

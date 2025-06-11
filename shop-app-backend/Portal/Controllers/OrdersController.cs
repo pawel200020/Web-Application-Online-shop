@@ -1,5 +1,4 @@
 ﻿using AppCommonTools.HttpContext;
-using AppCore;
 using AppCore.BusinessEntities;
 using AppCore.Store;
 using AutoMapper;
@@ -8,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using ViewModels.Pagination;
 using ViewModels.Shop.Orders;
 
-namespace ShopPortal.Controllers
+namespace Portal.Controllers
 {
     /// <summary>
     /// Controller responsible for order management in shop

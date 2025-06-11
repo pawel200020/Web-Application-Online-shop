@@ -1,6 +1,6 @@
 ﻿using AppAbstract.HostEnvironmentProvider;
 
-namespace ShopPortal.HostEnvironment;
+namespace Portal.HostEnvironment;
 
 internal class WebHostEnvironmentProvider(IWebHostEnvironment hostEnvironment) : IWebHostEnvironmentProvider
 {

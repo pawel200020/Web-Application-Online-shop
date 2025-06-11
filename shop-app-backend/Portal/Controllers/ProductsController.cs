@@ -11,7 +11,7 @@ using ViewModels.Pagination;
 using ViewModels.Shop.Categories;
 using ViewModels.Shop.Products;
 
-namespace ShopPortal.Controllers
+namespace Portal.Controllers
 {
     /// <summary>
     /// Controller responsible for products in a shop

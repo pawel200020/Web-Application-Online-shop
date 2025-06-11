@@ -8,11 +8,11 @@ namespace AppCore.BusinessEntities
         [Required]
         [EmailAddress]
         public string Email { get; set; } = null!;
-
+        [Required]
         public string Login { get; set; } = null!;
         public DateTime DateOfBirth { get; set; }
+        [Required]
         public string PhoneNumber { get; set; } = null!;
-
         [Required]
         public string Password { get; set; } = null!;
     }

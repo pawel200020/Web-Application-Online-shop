@@ -1,11 +1,4 @@
-﻿using AppAbstract.Services;
-using Data.Entities;
-using Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using NUnit.Framework;
-namespace ShopCoreTests
+﻿namespace AppCoreTests
 {
     [TestFixture]
     internal class ProductsTests

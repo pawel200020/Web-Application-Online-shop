@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ViewModels.Rating;
 
-namespace ShopPortal.Controllers
+namespace Portal.Controllers
 {
     /// <summary>
     /// Controller responsible for ratings related with product

@@ -1,4 +1,4 @@
-﻿namespace AppAbstract.Store.Denpendecies;
+﻿namespace AppAbstract.Store.Denpendencies;
 
 public interface IOrdersProducts
 {

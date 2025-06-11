@@ -2,7 +2,7 @@
 #nullable enable
 namespace ViewModels.Accounts
 {
-    public class UserCredentialsViewModel
+    public class RegisterViewModel
     {
         [Required] 
         [EmailAddress] 
